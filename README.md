@@ -23,12 +23,12 @@ Caso queira apenas parar a aplicação, basta executar o seguinte comando:
 docker-compose stop
 ```
 
-Para excluir os contêineres, execute o seguinte comando:
+Para excluir os containers:
 ```bash
 docker-compose down
 ```
 
-### 3. Configuracao do banco de dados
+### 3. Configuração do banco de dados
 Caso não queira usar o Docker para executar a aplicação, aqui estão as 
 configurações do banco de dados:
 ```
