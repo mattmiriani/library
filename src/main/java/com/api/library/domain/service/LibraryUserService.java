@@ -36,6 +36,13 @@ public class LibraryUserService extends LibraryValidator {
         );
     }
 
+    @Transactional(readOnly = true)
+    public LibraryUser findByEmail(String email) {
+        return libraryUserRepository.findByEmail(email).orElseThrow(
+                () -> new LibraryException(HttpStatus.NOT_FOUND, "Library user not found")
+        );
+    }
+
     private LibraryUser save(LibraryUser libraryUser) {
         return libraryUserRepository.save(libraryUser);
     }

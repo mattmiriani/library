@@ -28,6 +28,11 @@ public class LibraryUserController {
         return LibraryUserDTO.toLibraryUserDTO(libraryUserService.findById(libraryUserId));
     }
 
+    @PostMapping("/email")
+    public UUID findByEmail(@RequestBody LibraryUserDTO email) {
+        return libraryUserService.findByEmail(email.email()).getId();
+    }
+
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public LibraryUserCreateDTO create(@RequestBody LibraryUserCreateDTO libraryUserCreateDTO) {
