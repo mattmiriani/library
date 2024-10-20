@@ -102,23 +102,28 @@ class LibraryUserServiceTest {
         assertNotNull(result);
         assertEquals(libraryUserId, result.getId());
         assertEquals("name", result.getName());
+
+        verify(libraryUserRepository, times(1)).save(libraryUserMock);
     }
 
     @Test
     void update() {
         var libraryUserId = UUID.randomUUID();
         var existingLibraryUser = createLibraryUser(libraryUserId);
-        var updatedLibraryUser = createLibraryUser(libraryUserId);
-        updatedLibraryUser.setName("Updated Name");
 
         when(libraryUserRepository.findById(libraryUserId)).thenReturn(of(existingLibraryUser));
-        when(libraryUserRepository.save(any(LibraryUser.class))).thenReturn(updatedLibraryUser);
+        when(libraryUserRepository.save(any(LibraryUser.class))).thenReturn(existingLibraryUser);
 
-        var result = libraryUserService.update(libraryUserId, updatedLibraryUser);
+        existingLibraryUser.setName("Updated Name");
+
+        var result = libraryUserService.update(libraryUserId, existingLibraryUser);
 
         assertNotNull(result);
         assertEquals(libraryUserId, result.getId());
         assertEquals("Updated Name", result.getName());
+
+        verify(libraryUserRepository, times(1)).findById(libraryUserId);
+        verify(libraryUserRepository, times(1)).save(existingLibraryUser);
     }
 
     @Test
@@ -132,7 +137,7 @@ class LibraryUserServiceTest {
         libraryUserService.delete(libraryUserId);
 
         assertFalse(libraryToDelete.getActive());
-        verify(libraryUserRepository).findById(libraryUserId);
-        verify(libraryUserRepository).save(libraryToDelete);
+        verify(libraryUserRepository, times(1)).findById(libraryUserId);
+        verify(libraryUserRepository, times(1)).save(libraryToDelete);
     }
 }

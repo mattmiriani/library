@@ -111,7 +111,6 @@ class LoanServiceTest {
         var libraryUserId = UUID.randomUUID();
         var bookId = UUID.randomUUID();
         var loan = createLoan(loanId, libraryUserId, bookId);
-
         var validLibraryUser = new LibraryUser();
         validLibraryUser.setId(libraryUserId);
 

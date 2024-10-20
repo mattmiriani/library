@@ -133,6 +133,8 @@ class BookServiceTest {
         assertEquals(bookToCreate.getId(), result.getId());
         assertEquals("title", result.getTitle());
         assertEquals("author", result.getAuthor());
+
+        verify(bookRepository, times(1)).save(bookToCreate);
     }
 
     @Test
@@ -147,8 +149,8 @@ class BookServiceTest {
 
         var result = bookService.update(bookId, updatedBook);
 
-        verify(bookRepository).findById(bookId);
-        verify(bookRepository).save(existingBook);
+        verify(bookRepository, times(1)).findById(bookId);
+        verify(bookRepository, times(1)).save(existingBook);
 
         assertEquals("Updated Title", result.getTitle());
     }
@@ -164,7 +166,7 @@ class BookServiceTest {
         bookService.delete(bookId);
 
         assertFalse(bookToDelete.getActive());
-        verify(bookRepository).findById(bookId);
-        verify(bookRepository).save(bookToDelete);
+        verify(bookRepository, times(1)).findById(bookId);
+        verify(bookRepository, times(1)).save(bookToDelete);
     }
 }
