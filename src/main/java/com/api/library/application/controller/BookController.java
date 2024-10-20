@@ -5,6 +5,7 @@ import com.api.library.application.dto.BookDTO;
 import com.api.library.domain.service.BookService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -33,6 +34,7 @@ public class BookController {
     }
 
     @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
     public BookCreateDTO create(@RequestBody BookCreateDTO bookCreateDTO) {
         return BookCreateDTO.toBookCreateDTO(bookService.create(bookCreateDTO.toBook()));
     }
@@ -43,6 +45,7 @@ public class BookController {
     }
 
     @DeleteMapping("/{bookId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable UUID bookId) {
         bookService.delete(bookId);
     }

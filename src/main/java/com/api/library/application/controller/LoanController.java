@@ -36,6 +36,7 @@ public class LoanController {
     }
 
     @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
     public LoanCreateDTO create(@RequestBody LoanCreateDTO loanCreateDTO) {
         return LoanCreateDTO.toLoanCreateDTO(loanService.create(loanCreateDTO.toLoan()));
     }
