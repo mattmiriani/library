@@ -1,0 +1,90 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
+
+    <property name="uuid_type" value="uuid" dbms="postgresql"/>
+    <property name="uuid_function" value="uuid_generate_v4()" dbms="postgresql"/>
+
+    <changeSet id="202410093200" author="matheus">
+        <createTable tableName="library_user">
+            <column name="id" type="${uuid_type}" defaultValueComputed="${uuid_function}">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="library_user_pkey"/>
+            </column>
+            <column name="name" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="email" type="varchar">
+                <constraints nullable="false" unique="true" uniqueConstraintName="library_user_email_key"/>
+            </column>
+            <column name="created_at" type="timestamp">
+                <constraints nullable="false"/>
+            </column>
+            <column name="number_phone" type="varchar(15)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="active" type="boolean" defaultValue="false">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="202410094000" author="matheus">
+        <createTable tableName="book">
+            <column name="id" type="${uuid_type}" defaultValueComputed="${uuid_function}">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="book_pkey"/>
+            </column>
+            <column name="title" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="author" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="isbn" type="varchar(13)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="published_at" type="timestamp">
+                <constraints nullable="false"/>
+            </column>
+            <column name="category" type="varchar(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="active" type="boolean" defaultValue="false">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="202410094500" author="matheus">
+        <createTable tableName="loan">
+            <column name="id" type="${uuid_type}" defaultValueComputed="${uuid_function}">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="loan_pkey"/>
+            </column>
+            <column name="borrowed_at" type="timestamp">
+                <constraints nullable="false"/>
+            </column>
+            <column name="returned_at" type="timestamp">
+                <constraints nullable="true"/>
+            </column>
+            <column name="active" type="boolean" defaultValue="false">
+                <constraints nullable="false"/>
+            </column>
+            <column name="book_id" type="${uuid_type}">
+                <constraints nullable="false"/>
+            </column>
+            <column name="library_user_id" type="${uuid_type}">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addForeignKeyConstraint baseTableName="loan" baseColumnNames="book_id"
+                                 constraintName="loan_book_fkey" referencedTableName="book"
+                                 referencedColumnNames="id" deleteCascade="true"/>
+
+        <addForeignKeyConstraint baseTableName="loan" baseColumnNames="library_user_id"
+                                 constraintName="loan_library_user_fkey" referencedTableName="library_user"
+                                 referencedColumnNames="id" deleteCascade="true"/>
+    </changeSet>
+
+</databaseChangeLog>
