@@ -4,11 +4,12 @@ import com.api.library.domain.entity.Book;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
-public record BookDTO(String title, String author, String isbn, LocalDateTime publishedAt, String category, Boolean active) {
+public record BookDTO(UUID id, String title, String author, String isbn, LocalDateTime publishedAt, String category, Boolean active) {
 
     public BookDTO(Book book) {
-        this(book.getTitle(), book.getAuthor(), book.getIsbn(), book.getPublishedAt(), book.getCategory(), book.getActive());
+        this(book.getId(), book.getTitle(), book.getAuthor(), book.getIsbn(), book.getPublishedAt(), book.getCategory(), book.getActive());
     }
 
     public static List<BookDTO> toBooksDTO(List<Book> book) {
